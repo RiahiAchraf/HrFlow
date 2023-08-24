@@ -7,8 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prettier-format": "npx prettier --write .",
-    "prettier-check": "npx prettier --check ."
+    "prettier-format": "prettier --write .",
+    "prettier-check": "prettier --check .",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@types/node": "20.5.4",
@@ -25,6 +26,8 @@
     "typescript": "5.1.6"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.7.1",
+    "@commitlint/config-conventional": "^17.7.0",
     "@typescript-eslint/eslint-plugin": "^6.4.1",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-jsx-a11y": "^6.7.1",
@@ -32,6 +35,14 @@
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "eslint-plugin-tailwindcss": "^3.13.0",
     "eslint-plugin-unused-imports": "^3.0.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^14.0.1",
     "prettier": "^3.0.2"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   }
 }
