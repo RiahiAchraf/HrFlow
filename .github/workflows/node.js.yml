@@ -8,13 +8,12 @@ name: Build & Test
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ['main']
   pull_request:
-    branches: [ "main" ]
+    branches: ['main']
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -22,22 +21,20 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Install PNPM
-      run: npm install -g pnpm
+      - name: Install PNPM
+        run: npm install -g pnpm
 
-    - name: Get PNPM config store path
-      id: pnpm-store
-      run: echo "name=dir::$(pnpm config get store)" >> $GITHUB_OUTPUT
+      - name: Get PNPM config store path
+        id: pnpm-store
+        run: echo "name=dir::$(pnpm config get store)" >> $GITHUB_OUTPUT
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'pnpm'
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
 
-    - name: Install dependencies
-      run: pnpm install
-
-    - name: Test
+      - name: Install dependencies
+        run: pnpm install
