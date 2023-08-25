@@ -2,7 +2,9 @@
 
 import dayjs from 'dayjs';
 import process from 'process';
+import { isEmpty } from 'ramda';
 import { useEffect, useState } from 'react';
+import Skeleton from 'react-loading-skeleton';
 
 import { useGetJobs } from '@/api/jobs';
 import { Pagination } from '@/components/ui';
@@ -12,7 +14,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/According';
-import { ContentCard, Loading } from '@/components/views';
+import { ContentCard, EmptyState, Loading } from '@/components/views';
 import { useCurrentList } from '@/stores/useCurrentList';
 
 type ServerFilters = {
@@ -30,7 +32,7 @@ export default function Home() {
   });
 
   // API REQUEST FOR RETRIEVING JOBS
-  const { isLoading, data, refetch } = useGetJobs({
+  const { isLoading, isFetching, data, refetch } = useGetJobs({
     ...serverFilter,
     board_keys: JSON.stringify([BOARD_KEY]),
   });
@@ -46,44 +48,57 @@ export default function Home() {
   }, [data, setCurrentList]);
 
   return (
-    <div className='flex min-h-screen flex-col space-y-20'>
+    <div className='flex min-h-full flex-col space-y-20'>
       {isLoading ? (
         <Loading />
       ) : (
-        <>
-          <h2 className='text-base font-semibold capitalize leading-6 text-zinc-z8'>
-            {data?.message}
-          </h2>
-          <ul>
-            {currentList?.map((item) => {
-              const itemData = item?.created_at;
-              const formattedDate = dayjs(itemData).format('ddd, MMM D, YYYY');
+        <div>
+          {isEmpty(currentList) ? (
+            <EmptyState />
+          ) : (
+            <>
+              <h2 className='text-base font-semibold capitalize leading-6 text-zinc-z8'>
+                {data?.message}
+              </h2>
+              <div className='!relative h-full '>
+                {isFetching && (
+                  <div className=' absolute left-0 top-0 z-10 h-full w-full rounded-xl opacity-50'>
+                    <Skeleton className=' pointer-events-none h-full w-full' />
+                  </div>
+                )}
+                <ul>
+                  {currentList?.map((item) => {
+                    const itemData = item?.created_at;
+                    const formattedDate = dayjs(itemData).format('ddd, MMM D, YYYY');
 
-              return (
-                <li key={item?.id}>
-                  <Accordion type='single' collapsible>
-                    <AccordionItem value='item-1'>
-                      <AccordionTrigger>
-                        <div className='flex flex-col items-start'>
-                          <div>{item?.name}</div>
-                          <div className='text-sm text-zinc-z5'>{formattedDate}</div>
-                        </div>
-                      </AccordionTrigger>
-                      <AccordionContent>
-                        <ContentCard item={item} />
-                      </AccordionContent>
-                    </AccordionItem>
-                  </Accordion>
-                </li>
-              );
-            })}
-          </ul>
-          <Pagination
-            filter={serverFilter}
-            setServerFilter={setServerFilter}
-            metaData={data?.meta}
-          />
-        </>
+                    return (
+                      <li key={item?.id}>
+                        <Accordion type='single' collapsible>
+                          <AccordionItem value='item-1'>
+                            <AccordionTrigger>
+                              <div className='flex flex-col items-start'>
+                                <div>{item?.name}</div>
+                                <div className='text-sm text-zinc-z5'>{formattedDate}</div>
+                              </div>
+                            </AccordionTrigger>
+                            <AccordionContent>
+                              <ContentCard item={item} />
+                            </AccordionContent>
+                          </AccordionItem>
+                        </Accordion>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+              <Pagination
+                filter={serverFilter}
+                setServerFilter={setServerFilter}
+                metaData={data?.meta}
+              />
+            </>
+          )}
+        </div>
       )}
     </div>
   );

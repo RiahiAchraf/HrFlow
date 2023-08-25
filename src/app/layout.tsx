@@ -26,8 +26,11 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang='en' className={cn('scroll-smooth font-sans  antialiased', fontSans.variable)}>
-      <body>
+    <html
+      lang='en'
+      className={cn('scroll-smooth font-sans  antialiased h-full', fontSans.variable)}
+    >
+      <body className='h-full'>
         <Providers>
           <Layout>{children}</Layout>
         </Providers>
