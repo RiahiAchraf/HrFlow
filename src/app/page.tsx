@@ -1,10 +1,18 @@
 'use client';
 
+import dayjs from 'dayjs';
 import process from 'process';
 import { useEffect, useState } from 'react';
 
 import { useGetJobs } from '@/api/jobs';
 import { Pagination } from '@/components/ui';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/According';
+import { ContentCard, Loading } from '@/components/views';
 import { useCurrentList } from '@/stores/useCurrentList';
 
 type ServerFilters = {
@@ -37,16 +45,43 @@ export default function Home() {
   return (
     <div className='flex min-h-screen flex-col space-y-20'>
       {isLoading ? (
-        <p>Loading...</p>
+        <Loading />
       ) : (
         <>
           <h2 className='text-base font-semibold capitalize leading-6 text-zinc-z8'>
             {data?.message}
           </h2>
-          <ul>{currentList?.map((item) => <li key={item?.id}>{item?.name}</li>)}</ul>
+          <ul>
+            {currentList?.map((item) => {
+              const itemData = item?.created_at;
+              const formattedDate = dayjs(itemData).format('ddd, MMM D, YYYY');
+
+              return (
+                <li key={item?.id}>
+                  <Accordion type='single' collapsible>
+                    <AccordionItem value='item-1'>
+                      <AccordionTrigger>
+                        <div className='flex flex-col items-start'>
+                          <div>{item?.name}</div>
+                          <div className='text-sm text-zinc-z5'>{formattedDate}</div>
+                        </div>
+                      </AccordionTrigger>
+                      <AccordionContent>
+                        <ContentCard item={item} />
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+                </li>
+              );
+            })}
+          </ul>
+          <Pagination
+            filter={serverFilter}
+            setServerFilter={setServerFilter}
+            metaData={data?.meta}
+          />
         </>
       )}
-      <Pagination filter={serverFilter} setServerFilter={setServerFilter} metaData={data?.meta} />
     </div>
   );
 }

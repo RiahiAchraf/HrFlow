@@ -51,7 +51,7 @@ export default function Pagination({ filter, setServerFilter, metaData }: Pagina
   const pages = fetchPageNumbers();
 
   return (
-    <div className='mt-8 flex w-full justify-center border-t border-zinc-z2 pt-8'>
+    <div className='mt-8  flex w-full justify-center border-t border-zinc-z2 pb-32 pt-8'>
       <div className='flex  w-full flex-col-reverse items-center justify-center gap-4 md:flex-row md:justify-between'>
         {/* Start Pagination Details  */}
         <div className='flex items-center gap-3 text-sm text-zinc-z7'>

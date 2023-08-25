@@ -1,4 +1,5 @@
 import '@/styles/globals.css';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 import type { Metadata } from 'next';
 import { Inter as FontSans } from 'next/font/google';
