@@ -37,10 +37,13 @@ export default function Home() {
 
   useEffect(() => {
     refetch();
+  }, [serverFilter, refetch]);
+
+  useEffect(() => {
     if (setCurrentList) {
       setCurrentList(data?.data?.jobs);
     }
-  }, [serverFilter, refetch, data, setCurrentList]);
+  }, [data, setCurrentList]);
 
   return (
     <div className='flex min-h-screen flex-col space-y-20'>
