@@ -13,7 +13,6 @@ export const getJobs = async ({ limit, page, board_keys }: JobProps) => {
   const response = await axiosPrivate.get(
     `/jobs/searching?${stringify({
       board_keys,
-
       limit,
       page,
     })}`,
