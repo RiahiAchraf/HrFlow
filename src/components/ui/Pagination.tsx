@@ -1,9 +1,14 @@
 import { range } from 'ramda';
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/Select';
 import { cn } from '@/lib';
 import { ChevronLeft, ChevronRight } from '~/svg';
-
-import { Select } from '.';
 
 type PaginationProps = {
   metaData: {
@@ -21,7 +26,7 @@ type PaginationProps = {
 
 export default function Pagination({ filter, setServerFilter, metaData }: PaginationProps) {
   let { page, limit } = filter;
-  let { count, total, maxPage } = metaData ?? {};
+  let { total, maxPage } = metaData ?? {};
 
   const onPageUpdate = (newPage: number) => {
     setServerFilter({ limit, page: newPage });
@@ -45,35 +50,43 @@ export default function Pagination({ filter, setServerFilter, metaData }: Pagina
   }
 
   function fetchPageNumbers() {
-    return range(1, total / count + 1);
+    return range(1, maxPage + 1);
   }
 
   const pages = fetchPageNumbers();
 
+  console.log(page);
+
   return (
     <div className='mt-8  flex w-full justify-center border-t border-zinc-z2 pb-32 pt-8'>
       <div className='flex  w-full flex-col-reverse items-center justify-center gap-4 md:flex-row md:justify-between'>
-        {/* Start Pagination Details  */}
         <div className='flex items-center gap-3 text-sm text-zinc-z7'>
           <span>Showing</span>
           <Select
-            value={limit}
-            onLimitUpdate={(event) =>
-              setServerFilter({ ...filter, limit: parseInt(event.target.value, 10) })
-            }
-            items={[
-              { value: 15, title: '15' },
-              { value: 10, title: '10' },
-              { value: 5, title: '5' },
-            ]}
-          />
+            defaultValue={limit.toString()}
+            onValueChange={(event) => setServerFilter({ page: 1, limit: parseInt(event, 10) })}
+          >
+            <SelectTrigger className='w-[65px]'>
+              <SelectValue placeholder='Theme' />
+            </SelectTrigger>
+            <SelectContent>
+              {[
+                { value: '15', title: '15' },
+                { value: '10', title: '10' },
+                { value: '5', title: '5' },
+              ].map((item) => (
+                <SelectItem key={item.value} value={item.value}>
+                  {item.title}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
           <p className='whitespace-nowrap font-medium'>{`of ${total} results`}</p>
         </div>
-        {/* End Pagination Details  */}
       </div>
 
       <div className='flex items-center gap-2'>
-        {/* Start Pagination Previous Button */}
         <div className={cn(page === 1 && ' !cursor-not-allowed')}>
           <div
             className={cn(
@@ -88,9 +101,7 @@ export default function Pagination({ filter, setServerFilter, metaData }: Pagina
             <span className='sr-only'>Previous</span>
           </div>
         </div>
-        {/* Start Pagination Previous Button */}
 
-        {/* Start Pagination Number Buttons */}
         <ul className='isolate inline-flex w-full justify-center gap-2 md:w-auto '>
           {pages.map((item, index) => {
             const pageClassName = cn(
@@ -109,9 +120,7 @@ export default function Pagination({ filter, setServerFilter, metaData }: Pagina
             );
           })}
         </ul>
-        {/* End Pagination Number Buttons */}
 
-        {/* Start Pagination Next Button */}
         <div className={cn(page === maxPage && ' !cursor-not-allowed')}>
           <div
             className={cn(
@@ -124,7 +133,6 @@ export default function Pagination({ filter, setServerFilter, metaData }: Pagina
             <span className='sr-only'>Next</span>
           </div>
         </div>
-        {/* End Pagination Next Button */}
       </div>
     </div>
   );
