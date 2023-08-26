@@ -22,10 +22,6 @@ type ServerFilters = {
   limit: number;
 };
 
-// type ClientFilters = {
-//   category: string;
-// };
-
 export default function Home() {
   const currentFilters = useCurrentFilters((state) => state.currentFilters);
   // const setCurrentFilters = useCurrentFilters((state) => state.setCurrentFilters);
@@ -44,19 +40,17 @@ export default function Home() {
   // Memoize the value of listJobs and ensure that it only changes when the dependencies actually change
   const listJobs = useMemo(() => data?.data?.jobs ?? [], [data]);
 
-  console.log('CL', listJobs);
+  const [filteredList, setFilteredList] = useState<any[]>(listJobs);
 
   useEffect(() => {
     refetch();
   }, [serverFilter, refetch]);
 
-  const [filteredList, setFilteredList] = useState<any[]>(listJobs);
-
   useEffect(() => {
     if (!isNil(currentFilters?.category)) {
       setFilteredList(
         listJobs?.filter((item: any) =>
-          toLower(item?.tags[2]?.value).includes(toLower(currentFilters?.category)),
+          toLower(item?.tags[2]?.value).includes(toLower(currentFilters?.category ?? '')),
         ),
       );
     } else {

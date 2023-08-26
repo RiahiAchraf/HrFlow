@@ -1,3 +1,5 @@
+'useClient';
+
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/Button';
@@ -14,23 +16,12 @@ export default function Filters() {
   const currentFilters = useCurrentFilters((state) => state.currentFilters);
   const setCurrentFilters = useCurrentFilters((state) => state.setCurrentFilters);
 
-  // const currentList = useCurrentList((state) => state.currentList);
-  // const setCurrentList = useCurrentList((state) => state.setCurrentList);
-
   const [key, setKey] = useState<number>(+new Date());
-
-  // useEffect(() => {
-  //   if (setCurrentList && !isNil(currentFilters?.category)) {
-  //     setCurrentList(
-  //       currentList?.filter((item) => item?.tags[2]?.value === currentFilters?.category),
-  //     );
-  //   }
-  // }, [setCurrentList, currentFilters?.category]);
 
   return (
     <>
       <h2 className=''>Filters</h2>
-      <div className=' flex items-center justify-between'>
+      <div className='flex items-center justify-between'>
         <Select
           key={key}
           value={currentFilters?.category}
