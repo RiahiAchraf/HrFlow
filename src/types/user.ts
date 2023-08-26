@@ -1,3 +1,8 @@
+export type TUserTags = {
+  name: string;
+  value: string;
+};
+
 export type TUserSkill = {
   name: string;
   value: string | null;
@@ -10,4 +15,5 @@ export type TUser = {
   created_at: string;
   summary: string;
   skills: TUserSkill[];
+  tags: TUserTags[];
 };

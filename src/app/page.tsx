@@ -2,8 +2,8 @@
 
 import dayjs from 'dayjs';
 import process from 'process';
-import { isEmpty } from 'ramda';
-import { useEffect, useState } from 'react';
+import { isEmpty, isNil, toLower } from 'ramda';
+import { useEffect, useMemo, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 
 import { useGetJobs } from '@/api/jobs';
@@ -14,52 +14,68 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/According';
-import { ContentCard, EmptyState, Loading } from '@/components/views';
-import { useCurrentList } from '@/stores/useCurrentList';
+import { ContentCard, EmptyState, Filters, Loading } from '@/components/views';
+import { useCurrentFilters } from '@/stores/useCurrentFilters';
 
 type ServerFilters = {
   page: number;
   limit: number;
 };
 
+// type ClientFilters = {
+//   category: string;
+// };
+
 export default function Home() {
-  const setCurrentList = useCurrentList((state) => state.setCurrentList);
-  const currentList = useCurrentList((state) => state.currentList);
+  const currentFilters = useCurrentFilters((state) => state.currentFilters);
+  // const setCurrentFilters = useCurrentFilters((state) => state.setCurrentFilters);
 
   const [serverFilter, setServerFilter] = useState<ServerFilters>({
     page: 1,
-    limit: 5,
+    limit: 10,
   });
 
   // API REQUEST FOR RETRIEVING JOBS
-  const { isLoading, isFetching, data, refetch } = useGetJobs({
+  const { data, isLoading, isFetching, refetch } = useGetJobs({
     ...serverFilter,
     board_keys: JSON.stringify([BOARD_KEY]),
   });
+
+  // Memoize the value of listJobs and ensure that it only changes when the dependencies actually change
+  const listJobs = useMemo(() => data?.data?.jobs ?? [], [data]);
+
+  console.log('CL', listJobs);
 
   useEffect(() => {
     refetch();
   }, [serverFilter, refetch]);
 
+  const [filteredList, setFilteredList] = useState<any[]>(listJobs);
+
   useEffect(() => {
-    if (setCurrentList) {
-      setCurrentList(data?.data?.jobs);
+    if (!isNil(currentFilters?.category)) {
+      setFilteredList(
+        listJobs?.filter((item: any) =>
+          toLower(item?.tags[2]?.value).includes(toLower(currentFilters?.category)),
+        ),
+      );
+    } else {
+      setFilteredList(listJobs);
     }
-  }, [data, setCurrentList]);
+  }, [listJobs, currentFilters?.category]);
 
   return (
-    <div className='flex min-h-full flex-col space-y-20'>
+    <div className='flex min-h-full flex-col space-y-12'>
+      <h2 className='text-base font-semibold capitalize leading-6 text-zinc-z8'>{data?.message}</h2>
+      <Filters />
       {isLoading ? (
         <Loading />
       ) : (
         <div>
-          {isEmpty(currentList) ? (
+          {isEmpty(listJobs) ? (
             <EmptyState />
           ) : (
             <>
-              <h2 className='text-base font-semibold capitalize leading-6 text-zinc-z8'>
-                {data?.message}
-              </h2>
               <div className='!relative h-full '>
                 {isFetching && (
                   <div className=' absolute left-0 top-0 z-10 h-full w-full rounded-xl opacity-50'>
@@ -67,7 +83,7 @@ export default function Home() {
                   </div>
                 )}
                 <ul>
-                  {currentList?.map((item) => {
+                  {filteredList?.map((item) => {
                     const itemData = item?.created_at;
                     const formattedDate = dayjs(itemData).format('ddd, MMM D, YYYY');
 
