@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import process from 'process';
 import { isEmpty } from 'ramda';
 import { useEffect, useMemo, useState } from 'react';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import Skeleton from 'react-loading-skeleton';
 
 import { useGetJobs } from '@/api/jobs';
@@ -41,14 +42,28 @@ export default function Home() {
 
   const [filteredList, setFilteredList] = useState<any[]>(listJobs);
 
+  // Drag and drop function
+  function handleOnDragEnd(result: any) {
+    if (!result.destination) return;
+
+    const items = Array.from(filteredList);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    setFilteredList(items);
+  }
+
+  // Refetch whenever the server filter changes
   useEffect(() => {
     refetch();
   }, [serverFilter, refetch]);
 
+  // Update the filtered list based on the list jobs
   useEffect(() => {
     setFilteredList(listJobs);
   }, [listJobs]);
 
+  // Update the filtered list based on the client filters
   useEffect(() => {
     let updatedList = [...listJobs];
 
@@ -112,30 +127,59 @@ export default function Home() {
                     <Skeleton className=' pointer-events-none h-full w-full' />
                   </div>
                 )}
-                <ul>
-                  {filteredList?.map((item) => {
-                    const itemData = item?.created_at;
-                    const formattedDate = dayjs(itemData).format('ddd, MMM D, YYYY');
+                <DragDropContext onDragEnd={handleOnDragEnd}>
+                  <Droppable droppableId='characters'>
+                    {(provided) => (
+                      <ul
+                        className='flex flex-col gap-8'
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                      >
+                        {filteredList?.map((item, index) => {
+                          const itemData = item?.created_at;
+                          const formattedDate = dayjs(itemData).format('ddd, MMM D, YYYY');
 
-                    return (
-                      <li key={item?.id}>
-                        <Accordion type='single' collapsible>
-                          <AccordionItem value='item-1'>
-                            <AccordionTrigger>
-                              <div className='flex flex-col items-start'>
-                                <div>{item?.name}</div>
-                                <div className='text-sm text-zinc-z5'>{formattedDate}</div>
-                              </div>
-                            </AccordionTrigger>
-                            <AccordionContent>
-                              <ContentCard item={item} />
-                            </AccordionContent>
-                          </AccordionItem>
-                        </Accordion>
-                      </li>
-                    );
-                  })}
-                </ul>
+                          return (
+                            <Draggable
+                              key={item?.id?.toString()}
+                              draggableId={item?.id?.toString()}
+                              index={index}
+                            >
+                              {(provided) => (
+                                <li
+                                  className='rounded-xl bg-white p-8 shadow'
+                                  key={item?.id}
+                                  ref={provided.innerRef}
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                >
+                                  <Accordion type='single' collapsible>
+                                    <AccordionItem value='item-1'>
+                                      <div>
+                                        <AccordionTrigger>
+                                          <div className='flex flex-col items-start'>
+                                            <div>{item?.name}</div>
+                                            <div className='text-sm text-zinc-z5'>
+                                              {formattedDate}
+                                            </div>
+                                          </div>
+                                        </AccordionTrigger>
+                                      </div>
+                                      <AccordionContent>
+                                        <ContentCard item={item} />
+                                      </AccordionContent>
+                                    </AccordionItem>
+                                  </Accordion>
+                                </li>
+                              )}
+                            </Draggable>
+                          );
+                        })}
+                        {provided.placeholder}
+                      </ul>
+                    )}
+                  </Droppable>
+                </DragDropContext>
               </div>
               <Pagination
                 filter={serverFilter}
