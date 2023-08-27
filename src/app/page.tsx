@@ -24,7 +24,6 @@ type ServerFilters = {
 
 export default function Home() {
   const currentFilters = useCurrentFilters((state) => state.currentFilters);
-  // const setCurrentFilters = useCurrentFilters((state) => state.setCurrentFilters);
 
   const [serverFilter, setServerFilter] = useState<ServerFilters>({
     page: 1,
@@ -52,6 +51,13 @@ export default function Home() {
 
   useEffect(() => {
     let updatedList = [...listJobs];
+
+    // Search for the keyword in the name of the job
+    if (currentFilters?.search) {
+      updatedList = updatedList.filter((item) =>
+        item.name.toLowerCase().includes(currentFilters?.search?.toLowerCase()),
+      );
+    }
 
     // Apply category filter if category is selected
     if (currentFilters?.category) {

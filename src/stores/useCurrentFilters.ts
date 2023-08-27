@@ -1,4 +1,3 @@
-/* eslint-disable unused-imports/no-unused-vars */
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -11,10 +10,11 @@ interface CurrentFiltersState {
 
 export const useCurrentFilters = create<CurrentFiltersState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       currentFilters: {
         category: undefined,
         sort_by: undefined,
+        search: undefined,
       },
       setCurrentFilters: (data) => set({ currentFilters: data }),
     }),

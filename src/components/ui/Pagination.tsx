@@ -112,7 +112,7 @@ export default function Pagination({ filter, setServerFilter, metaData }: Pagina
             return (
               <li
                 key={index}
-                className={cn(pageClassName, page === item && 'bg-teal-500/40')}
+                className={cn(pageClassName, page === item && 'bg-white shadow')}
                 onClick={() => handleClick(item)}
               >
                 {item}

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
 import {
   Select,
   SelectContent,
@@ -20,8 +21,21 @@ export default function Filters() {
   const [key2, setKey2] = useState<number>(1);
 
   return (
-    <>
+    <div className='flex flex-col space-y-4'>
       <h2 className=''>Filters</h2>
+      <Input
+        type='search'
+        placeholder='Search by job name'
+        value={currentFilters?.search}
+        onChange={(event) => {
+          if (setCurrentFilters) {
+            setCurrentFilters({
+              ...currentFilters,
+              search: event.target.value,
+            });
+          }
+        }}
+      />
       <div className='flex items-center justify-between'>
         <div className='flex items-center gap-4'>
           <Select
@@ -88,7 +102,7 @@ export default function Filters() {
           Reset
         </Button>
       </div>
-    </>
+    </div>
   );
 }
 
