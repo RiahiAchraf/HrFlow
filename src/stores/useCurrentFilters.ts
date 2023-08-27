@@ -14,6 +14,7 @@ export const useCurrentFilters = create<CurrentFiltersState>()(
     (set, get) => ({
       currentFilters: {
         category: undefined,
+        sort_by: undefined,
       },
       setCurrentFilters: (data) => set({ currentFilters: data }),
     }),

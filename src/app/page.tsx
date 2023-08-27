@@ -2,7 +2,7 @@
 
 import dayjs from 'dayjs';
 import process from 'process';
-import { isEmpty, isNil, toLower } from 'ramda';
+import { isEmpty } from 'ramda';
 import { useEffect, useMemo, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 
@@ -47,16 +47,46 @@ export default function Home() {
   }, [serverFilter, refetch]);
 
   useEffect(() => {
-    if (!isNil(currentFilters?.category)) {
-      setFilteredList(
-        listJobs?.filter((item: any) =>
-          toLower(item?.tags[2]?.value).includes(toLower(currentFilters?.category ?? '')),
+    setFilteredList(listJobs);
+  }, [listJobs]);
+
+  useEffect(() => {
+    let updatedList = [...listJobs];
+
+    // Apply category filter if category is selected
+    if (currentFilters?.category) {
+      updatedList = updatedList?.filter((item) =>
+        item.tags.some((tag: any) =>
+          tag.value.toLowerCase().includes(currentFilters?.category?.toLowerCase()),
         ),
       );
-    } else {
-      setFilteredList(listJobs);
     }
-  }, [listJobs, currentFilters?.category]);
+
+    // Sort by name if the sorting criteria is 'name'
+    if (currentFilters?.sort_by === 'name') {
+      updatedList?.sort((a, b) => a?.name?.localeCompare(b.name));
+    }
+
+    // Apply sorting if the sorting criteria is 'date'
+    if (currentFilters?.sort_by === 'date') {
+      updatedList?.sort(
+        (a, b) => new Date(a?.created_at).getTime() - new Date(b?.created_at).getTime(),
+      );
+    }
+
+    // Sort by category if the sorting criteria is 'category'
+    if (currentFilters?.sort_by === 'category') {
+      updatedList?.sort(
+        (a, b) =>
+          a?.tags
+            ?.find((tag: any) => tag.name === 'category')
+            ?.value.localeCompare(b?.tags?.find((tag: any) => tag.name === 'category')?.value),
+      );
+    }
+
+    // Update the filtered and sorted list
+    setFilteredList(updatedList);
+  }, [currentFilters, listJobs]);
 
   return (
     <div className='flex min-h-full flex-col space-y-12'>
