@@ -24,7 +24,7 @@ type PaginationProps = {
   setServerFilter: any;
 };
 
-export default function Pagination({ filter, setServerFilter, metaData }: PaginationProps) {
+const Pagination = ({ filter, setServerFilter, metaData }: PaginationProps) => {
   let { page, limit } = filter;
   let { total, maxPage } = metaData ?? {};
 
@@ -54,8 +54,6 @@ export default function Pagination({ filter, setServerFilter, metaData }: Pagina
   }
 
   const pages = fetchPageNumbers();
-
-  console.log(page);
 
   return (
     <div className='mt-8  flex w-full justify-center border-t border-zinc-z2 pb-32 pt-8'>
@@ -136,4 +134,6 @@ export default function Pagination({ filter, setServerFilter, metaData }: Pagina
       </div>
     </div>
   );
-}
+};
+
+export { Pagination };

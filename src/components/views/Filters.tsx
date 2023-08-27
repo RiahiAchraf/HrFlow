@@ -93,6 +93,7 @@ export default function Filters() {
               setCurrentFilters({
                 category: undefined,
                 sort_by: undefined,
+                search: '',
               });
             }
             setKey1(+new Date());

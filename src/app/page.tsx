@@ -8,15 +8,16 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import Skeleton from 'react-loading-skeleton';
 
 import { useGetJobs } from '@/api/jobs';
-import { Pagination } from '@/components/ui';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/According';
+import { Pagination } from '@/components/ui/Pagination';
 import { ContentCard, EmptyState, Filters, Loading } from '@/components/views';
 import { useCurrentFilters } from '@/stores/useCurrentFilters';
+import type { TUser } from '@/types/user';
 
 type ServerFilters = {
   page: number;
@@ -40,7 +41,7 @@ export default function Home() {
   // Memoize the value of listJobs and ensure that it only changes when the dependencies actually change
   const listJobs = useMemo(() => data?.data?.jobs ?? [], [data]);
 
-  const [filteredList, setFilteredList] = useState<any[]>(listJobs);
+  const [filteredList, setFilteredList] = useState<TUser[]>(listJobs);
 
   // Drag and drop function
   function handleOnDragEnd(result: any) {
@@ -131,7 +132,7 @@ export default function Home() {
                   <Droppable droppableId='characters'>
                     {(provided) => (
                       <ul
-                        className='flex flex-col gap-8'
+                        className='flex flex-col gap-5'
                         {...provided.droppableProps}
                         ref={provided.innerRef}
                       >
