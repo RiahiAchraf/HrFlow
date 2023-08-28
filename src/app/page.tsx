@@ -138,6 +138,7 @@ export default function Home() {
                   <Droppable droppableId='characters'>
                     {(provided) => (
                       <ul
+                        data-test='list-items'
                         className='flex flex-col gap-5'
                         {...provided.droppableProps}
                         ref={provided.innerRef}
@@ -165,7 +166,9 @@ export default function Home() {
                                       <div>
                                         <AccordionTrigger>
                                           <div className='flex flex-col items-start'>
-                                            <div className='capitalize'>{item?.name}</div>
+                                            <div data-test='job-name' className='capitalize'>
+                                              {item?.name}
+                                            </div>
                                             <div className='text-sm text-zinc-z5'>
                                               {formattedDate}
                                             </div>
