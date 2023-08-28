@@ -1,4 +1,4 @@
-# HrFlow - Job Listing Web Page Challenge
+#  HrFlow - Job Listing Web Page Challenge 🚀
 
 ## Overview
 
@@ -61,24 +61,24 @@ This challenge involves developing a responsive web page using the React.js libr
    - Axios
    - Dayjs
    - [And these useful of JavaScript libraries ](https://github.com/RiahiAchraf/HrFlow/blob/main/package.json)
+  
+7. **Deployment:**
+   - Vercel
 
-7. **Evaluation Criteria:**
+8. **Evaluation Criteria:**
    - Ability to use HrFlow.ai's searching APIs
    - Quality of user interface design
    - Code organization and readability
    - Error handling and app robustness
    - Adherence to guidelines and requirements
 
-8. **Error Handling:**
+9.  **Error Handling:**
    - The app handles errors gracefully and provides user-friendly feedback.
 
-9.  **Contributing:**
+10. **Contributing:**
    - If you'd like to contribute, feel free to fork and submit a pull request.
 
+11. **License:**
+   - HrFlow.ai
 
-10. **License:**
-    - [HrFlow.ai]
-
-Happy coding!
-
-[![Powered by Vercel](~/../public/vercel.svg)]
+Happy coding! 🥳
