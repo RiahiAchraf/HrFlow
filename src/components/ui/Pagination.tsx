@@ -56,16 +56,16 @@ const Pagination = ({ filter, setServerFilter, metaData }: PaginationProps) => {
   const pages = fetchPageNumbers();
 
   return (
-    <div className='mt-8  flex w-full justify-center border-t border-zinc-z2 pb-32 pt-8'>
-      <div className='flex  w-full flex-col-reverse items-center justify-center gap-4 md:flex-row md:justify-between'>
+    <div className='mt-8  flex w-full flex-col-reverse justify-center gap-10 border-t border-zinc-z2 pb-32 pt-8 sm:flex-row'>
+      <div className='flex w-full items-center justify-center gap-4 sm:justify-between'>
         <div className='flex items-center gap-3 text-sm text-zinc-z7'>
           <span>Showing</span>
           <Select
             defaultValue={limit.toString()}
             onValueChange={(event) => setServerFilter({ page: 1, limit: parseInt(event, 10) })}
           >
-            <SelectTrigger className='w-[65px]'>
-              <SelectValue placeholder='Theme' />
+            <SelectTrigger className='w-[70px]'>
+              <SelectValue placeholder='Limit' />
             </SelectTrigger>
             <SelectContent>
               {[

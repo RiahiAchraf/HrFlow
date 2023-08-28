@@ -36,8 +36,8 @@ export default function Filters() {
           }
         }}
       />
-      <div className='flex items-center justify-between'>
-        <div className='flex items-center gap-4'>
+      <div className='flex flex-col items-end justify-between gap-4 sm:flex-row sm:items-center'>
+        <div className='flex w-full flex-col items-center gap-4 sm:w-auto sm:flex-row'>
           <Select
             key={key1}
             value={currentFilters?.category}
@@ -50,7 +50,7 @@ export default function Filters() {
               }
             }}
           >
-            <SelectTrigger className='w-[250px]'>
+            <SelectTrigger className='w-full sm:w-[250px]'>
               <SelectValue placeholder='Select a category' />
             </SelectTrigger>
             <SelectContent>
@@ -74,7 +74,7 @@ export default function Filters() {
               }
             }}
           >
-            <SelectTrigger className='w-[250px]'>
+            <SelectTrigger className='w-full sm:w-[250px]'>
               <SelectValue placeholder='Sort by' />
             </SelectTrigger>
             <SelectContent>
@@ -87,6 +87,7 @@ export default function Filters() {
           </Select>
         </div>
         <Button
+          className='w-full sm:w-auto'
           onClick={(e) => {
             e.stopPropagation();
             if (setCurrentFilters) {
