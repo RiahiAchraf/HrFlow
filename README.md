@@ -54,10 +54,10 @@ This challenge involves developing a responsive web page using the React.js libr
    - Typescript
    - Nextjs 13
    - Eslint/Prettier, lint-staged, husky and commitlint configured
-   - UI libraries: Tailwindcss, Radix-ui, Shadcn
+   - UI libraries: Tailwindcss, Shadcn
    - State management: Zustand
    - Data managment: React Query
-   - Testing tool :Cypress
+   - Testing tool: Cypress
    - Axios
    - Dayjs
    - [And these useful of JavaScript libraries ](https://github.com/RiahiAchraf/HrFlow/blob/main/package.json)
