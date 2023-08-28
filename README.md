@@ -1,8 +1,8 @@
-#  HrFlow - Job Listing Web Page Challenge 🚀
+#  🚀 HrFlow - Job Listing Web Page Challenge 
 
 ## Overview
 
-This challenge involves developing a responsive web page using the React.js library that displays a list of jobs. The page allows users to filter job listings by categories, search for jobs using a text input, and apply various filters.
+This challenge involves developing a responsive web page using the React.js library that displays a list of jobs. The page allows users to filter job listings by categories, search for jobs using text input, and apply various filters.
 
 [hr-flow.vercel.app](https://hr-flow.vercel.app/)
 
@@ -41,7 +41,7 @@ This challenge involves developing a responsive web page using the React.js libr
 4. **Usage:**
    - Use the search bar to find jobs by name
    - Filter jobs by category using the dropdown
-   - Sort jobs by various criteria using the sorting options ( created date, name and category )
+   - Sort jobs by various criteria using the sorting options ( created date, name, and category )
    - Re-order items by drag and drop
    - Reset filters using the reset button
    - Navigate between pages using the pagination
@@ -56,11 +56,11 @@ This challenge involves developing a responsive web page using the React.js libr
    - Eslint/Prettier, lint-staged, husky and commitlint configured
    - UI libraries: Tailwindcss, Shadcn
    - State management: Zustand
-   - Data managment: React Query
+   - Data management: React Query
    - Testing tool: Cypress
    - Axios
    - Dayjs
-   - [And these useful of JavaScript libraries ](https://github.com/RiahiAchraf/HrFlow/blob/main/package.json)
+   - [And these useful JavaScript libraries ](https://github.com/RiahiAchraf/HrFlow/blob/main/package.json)
   
 7. **Deployment:**
    - Vercel
@@ -75,10 +75,7 @@ This challenge involves developing a responsive web page using the React.js libr
 9.  **Error Handling:**
    - The app handles errors gracefully and provides user-friendly feedback.
 
-10. **Contributing:**
-   - If you'd like to contribute, feel free to fork and submit a pull request.
-
-11. **License:**
+10. **License:**
    - HrFlow.ai
 
 Happy coding! 🥳
