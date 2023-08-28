@@ -8,6 +8,7 @@ export default defineConfig({
     },
   },
   video: false,
+  defaultCommandTimeout: 10000,
   env: {
     API_HOST: process.env.NEXT_PUBLIC_API_URL,
   },

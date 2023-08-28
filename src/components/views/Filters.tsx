@@ -28,6 +28,7 @@ export default function Filters({ isLoading }: FiltersProps) {
     <div className='flex flex-col space-y-4'>
       <h2 className=''>Filters</h2>
       <Input
+        data-test='search-input'
         type='search'
         placeholder='Search by job name'
         value={currentFilters?.search}
