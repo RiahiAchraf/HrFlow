@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { stringify } from 'querystring';
 
 import { axiosPrivate } from '@/lib/axiosPrivate';
+import { showError } from '@/utils/errorsHandler';
 
 type JobProps = {
   board_keys: string;
@@ -23,5 +24,8 @@ export const getJobs = async ({ limit, page, board_keys }: JobProps) => {
 export const useGetJobs = ({ board_keys, limit, page }: JobProps) => {
   return useQuery(['jobs', board_keys], () => getJobs({ board_keys, limit, page }), {
     keepPreviousData: true,
+    onError: (error) => {
+      showError(error);
+    },
   });
 };
