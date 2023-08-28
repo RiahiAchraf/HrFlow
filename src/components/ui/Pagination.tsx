@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/Select';
-import { cn } from '@/lib';
+import { cn } from '@/lib/cn';
 import { ChevronLeft, ChevronRight } from '~/svg';
 
 type PaginationProps = {

@@ -3,7 +3,7 @@
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
 import * as React from 'react';
 
-import { cn } from '@/lib';
+import { cn } from '@/lib/cn';
 import { ChevronDown } from '~/svg';
 
 const Accordion = AccordionPrimitive.Root;

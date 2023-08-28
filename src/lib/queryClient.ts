@@ -8,4 +8,4 @@ const QueryClientOptions = {
   },
 };
 
-export default QueryClientOptions;
+export { QueryClientOptions };

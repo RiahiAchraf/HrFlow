@@ -2,18 +2,22 @@
 
 import { useState } from 'react';
 
-import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
 import {
+  Button,
+  Input,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/Select';
+} from '@/components/ui';
 import { useCurrentFilters } from '@/stores/useCurrentFilters';
 
-export default function Filters() {
+type FiltersProps = {
+  isLoading: boolean;
+};
+
+export default function Filters({ isLoading }: FiltersProps) {
   const currentFilters = useCurrentFilters((state) => state.currentFilters);
   const setCurrentFilters = useCurrentFilters((state) => state.setCurrentFilters);
 
@@ -35,6 +39,7 @@ export default function Filters() {
             });
           }
         }}
+        disabled={isLoading}
       />
       <div className='flex flex-col items-end justify-between gap-4 sm:flex-row sm:items-center'>
         <div className='flex w-full flex-col items-center gap-4 sm:w-auto sm:flex-row'>
@@ -49,6 +54,7 @@ export default function Filters() {
                 });
               }
             }}
+            disabled={isLoading}
           >
             <SelectTrigger className='w-full sm:w-[250px]'>
               <SelectValue placeholder='Select a category' />
@@ -73,6 +79,7 @@ export default function Filters() {
                 });
               }
             }}
+            disabled={isLoading}
           >
             <SelectTrigger className='w-full sm:w-[250px]'>
               <SelectValue placeholder='Sort by' />
@@ -100,6 +107,7 @@ export default function Filters() {
             setKey1(+new Date());
             setKey2(key2 + 1);
           }}
+          disabled={isLoading}
         >
           Reset
         </Button>

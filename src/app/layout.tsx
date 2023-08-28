@@ -5,7 +5,7 @@ import type { Metadata } from 'next';
 import { Inter as FontSans } from 'next/font/google';
 
 import Layout from '@/components/layout';
-import { cn } from '@/lib';
+import { cn } from '@/lib/cn';
 
 import Providers from './providers';
 

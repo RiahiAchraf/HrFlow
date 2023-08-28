@@ -13,9 +13,9 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/ui/According';
-import { Pagination } from '@/components/ui/Pagination';
-import { ContentCard, EmptyState, Filters, Loading } from '@/components/views';
+  Pagination,
+} from '@/components/ui';
+import { ContentCard, ContentLoading, EmptyState, Filters, TitleLoading } from '@/components/views';
 import { useCurrentFilters } from '@/stores/useCurrentFilters';
 import type { TUser } from '@/types/user';
 
@@ -32,7 +32,7 @@ export default function Home() {
     limit: 10,
   });
 
-  // API REQUEST FOR RETRIEVING JOBS
+  // API REQUEST FOR RETRIEVING LIST JOBS
   const { data, isLoading, isFetching, refetch } = useGetJobs({
     ...serverFilter,
     board_keys: JSON.stringify([BOARD_KEY]),
@@ -106,16 +106,22 @@ export default function Home() {
       );
     }
 
-    // Update the filtered and sorted list
+    // Update the filtered list
     setFilteredList(updatedList);
   }, [currentFilters, listJobs]);
 
   return (
     <div className='flex min-h-full flex-col space-y-12'>
-      <h2 className='text-base font-semibold capitalize leading-6 text-zinc-z8'>{data?.message}</h2>
-      <Filters />
       {isLoading ? (
-        <Loading />
+        <TitleLoading />
+      ) : (
+        <h2 className='text-base font-semibold capitalize leading-6 text-zinc-z8'>
+          {data?.message}
+        </h2>
+      )}
+      <Filters isLoading={isLoading} />
+      {isLoading ? (
+        <ContentLoading />
       ) : (
         <div>
           {isEmpty(listJobs) ? (

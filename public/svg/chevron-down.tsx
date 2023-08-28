@@ -1,6 +1,6 @@
 import React, { SVGProps } from 'react';
 
-import { cn } from '@/lib';
+import { cn } from '@/lib/cn';
 
 type ChevronDownProps = SVGProps<SVGSVGElement> & {
   className?: string;
