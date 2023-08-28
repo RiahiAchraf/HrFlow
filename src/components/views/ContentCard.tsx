@@ -1,6 +1,7 @@
 import { isEmpty } from 'ramda';
 
 type Tag = {
+  name: string;
   value: string;
 };
 
@@ -27,6 +28,8 @@ type ContentCardProps = {
 };
 
 export default function ContentCard({ item }: ContentCardProps) {
+  const categoryTag = item?.tags?.find((tag) => tag?.name === 'category');
+
   return (
     <div className='mb-4 flex flex-col items-start gap-8'>
       <div>
@@ -41,16 +44,25 @@ export default function ContentCard({ item }: ContentCardProps) {
         </ul>
       </div>
 
+      {categoryTag && !isEmpty(categoryTag?.value) && (
+        <div>
+          <span className='font-semibold'>Category: </span>
+          {categoryTag?.value}
+        </div>
+      )}
+
       <div>
         <span className='font-semibold'>Location: </span>
         {item?.location?.text}
       </div>
+
       {!isEmpty(item?.summary) && (
         <div className='flex flex-col gap-2'>
           <span className='font-semibold'>Description: </span>
           <p> {item?.summary}</p>
         </div>
       )}
+
       <div className='flex flex-col gap-2'>
         <span className='font-semibold'>Skills : </span>
         <ul className='flex flex-wrap gap-3'>
