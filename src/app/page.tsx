@@ -135,7 +135,7 @@ export default function Home() {
                   </div>
                 )}
                 <DragDropContext onDragEnd={handleOnDragEnd}>
-                  <Droppable droppableId='characters'>
+                  <Droppable droppableId='list-jobs'>
                     {(provided) => (
                       <ul
                         data-test='list-items'

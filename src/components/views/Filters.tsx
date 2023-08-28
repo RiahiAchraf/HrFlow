@@ -45,6 +45,7 @@ export default function Filters({ isLoading }: FiltersProps) {
       <div className='flex flex-col items-end justify-between gap-4 sm:flex-row sm:items-center'>
         <div className='flex w-full flex-col items-center gap-4 sm:w-auto sm:flex-row'>
           <Select
+            data-test='select-category'
             key={key1}
             value={currentFilters?.category}
             onValueChange={(event) => {
@@ -60,9 +61,9 @@ export default function Filters({ isLoading }: FiltersProps) {
             <SelectTrigger className='w-full sm:w-[250px]'>
               <SelectValue placeholder='Select a category' />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent data-test='category-content'>
               {listCategories.map((item, index) => (
-                <SelectItem key={index} value={item}>
+                <SelectItem data-test='category-item' key={index} value={item}>
                   {item}
                 </SelectItem>
               ))}
@@ -85,9 +86,9 @@ export default function Filters({ isLoading }: FiltersProps) {
             <SelectTrigger className='w-full sm:w-[250px]'>
               <SelectValue placeholder='Sort by' />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent data-test='sort-by-content'>
               {sortBy.map((item, index) => (
-                <SelectItem value={item.value} key={index}>
+                <SelectItem data-test='sort-by-item' value={item.value} key={index}>
                   {item.title}
                 </SelectItem>
               ))}
@@ -95,6 +96,7 @@ export default function Filters({ isLoading }: FiltersProps) {
           </Select>
         </div>
         <Button
+          data-test='reset-button'
           className='w-full sm:w-auto'
           onClick={(e) => {
             e.stopPropagation();
