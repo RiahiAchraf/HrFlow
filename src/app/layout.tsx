@@ -13,6 +13,12 @@ export const metadata: Metadata = {
   title: 'HrFlow Web',
   description: 'HrFlow web built using Next.js 13.',
   keywords: ['HrFlow.ai', 'HrFlow'],
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+    viewportFit: 'cover',
+  },
 };
 
 const fontSans = FontSans({
