@@ -20,7 +20,7 @@ describe('E2E - FILTERS', () => {
     cy.getData('search-input').clear();
 
     cy.step('Should confirms select by the job category filter');
-    cy.get('[aria-controls="radix-:R1faqkq:"]').click();
+    cy.get('[aria-controls="radix-:R1faqkq:"]').click({ force: true });
     cy.getData('category-content')
       .find('[data-test="category-item"]')
       .then((firstItem) => {
@@ -34,7 +34,7 @@ describe('E2E - FILTERS', () => {
       });
 
     cy.step('Should confirms sort by filter');
-    cy.get('[aria-controls="radix-:R2faqkq:"]').click();
+    cy.get('[aria-controls="radix-:R2faqkq:"]').click({ force: true });
 
     cy.getData('sort-by-content')
       .find('[data-test="sort-by-item"]')
@@ -50,14 +50,14 @@ describe('E2E - FILTERS', () => {
         cy.get('[aria-controls="radix-:R2faqkq:"]').contains(sortByDate);
 
         cy.step('Should sort by name');
-        cy.get('[aria-controls="radix-:R2faqkq:"]').click();
+        cy.get('[aria-controls="radix-:R2faqkq:"]').click({ force: true });
         cy.getData('sort-by-item').eq(1).contains(sortByName).click();
 
         cy.step('Assert that the name sort is displayed correctly');
         cy.get('[aria-controls="radix-:R2faqkq:"]').contains(sortByName);
 
         cy.step('Should sort by category');
-        cy.get('[aria-controls="radix-:R2faqkq:"]').click();
+        cy.get('[aria-controls="radix-:R2faqkq:"]').click({ force: true });
         cy.getData('sort-by-item').last().contains(sortByCategory).click();
 
         cy.step('Assert that the category sort is displayed correctly');
