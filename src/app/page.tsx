@@ -1,113 +1,204 @@
-import Image from 'next/image'
+'use client';
+
+import dayjs from 'dayjs';
+import process from 'process';
+import { isEmpty } from 'ramda';
+import { useEffect, useMemo, useState } from 'react';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import Skeleton from 'react-loading-skeleton';
+
+import { useGetJobs } from '@/api/jobs';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+  Pagination,
+} from '@/components/ui';
+import { ContentCard, ContentLoading, EmptyState, Filters, TitleLoading } from '@/components/views';
+import { useCurrentFilters } from '@/stores/useCurrentFilters';
+import type { TUser } from '@/types/user';
+
+type ServerFilters = {
+  page: number;
+  limit: number;
+};
 
 export default function Home() {
+  const currentFilters = useCurrentFilters((state) => state.currentFilters);
+
+  const [serverFilter, setServerFilter] = useState<ServerFilters>({
+    page: 1,
+    limit: 10,
+  });
+
+  // API REQUEST FOR RETRIEVING LIST JOBS
+  const { data, isLoading, isFetching, refetch } = useGetJobs({
+    ...serverFilter,
+    board_keys: JSON.stringify([BOARD_KEY]),
+  });
+
+  // Memoize the value of listJobs and ensure that it only changes when the dependencies actually change
+  const listJobs = useMemo(() => data?.data?.jobs ?? [], [data]);
+
+  const [filteredList, setFilteredList] = useState<TUser[]>(listJobs);
+
+  // Drag and drop function
+  function handleOnDragEnd(result: any) {
+    if (!result.destination) return;
+
+    const items = Array.from(filteredList);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    setFilteredList(items);
+  }
+
+  // Refetch whenever the server filter changes
+  useEffect(() => {
+    refetch();
+  }, [serverFilter, refetch]);
+
+  // Update the filtered list based on the list jobs
+  useEffect(() => {
+    setFilteredList(listJobs);
+  }, [listJobs]);
+
+  // Update the filtered list based on the client filters
+  useEffect(() => {
+    let updatedList = [...listJobs];
+
+    // Search for the keyword in the name of the job
+    if (currentFilters?.search) {
+      updatedList = updatedList.filter((item) =>
+        item.name.toLowerCase().includes(currentFilters?.search?.toLowerCase()),
+      );
+    }
+
+    // Apply category filter if category is selected
+    if (currentFilters?.category) {
+      updatedList = updatedList?.filter((item) =>
+        item.tags.some((tag: any) =>
+          tag.value.toLowerCase().includes(currentFilters?.category?.toLowerCase()),
+        ),
+      );
+    }
+
+    // Sort by name if the sorting criteria is 'name'
+    if (currentFilters?.sort_by === 'name') {
+      updatedList?.sort((a, b) => a?.name?.localeCompare(b.name));
+    }
+
+    // Apply sorting if the sorting criteria is 'date'
+    if (currentFilters?.sort_by === 'date') {
+      updatedList?.sort(
+        (a, b) => new Date(a?.created_at).getTime() - new Date(b?.created_at).getTime(),
+      );
+    }
+
+    // Sort by category if the sorting criteria is 'category'
+    if (currentFilters?.sort_by === 'category') {
+      updatedList?.sort(
+        (a, b) =>
+          a?.tags
+            ?.find((tag: any) => tag.name === 'category')
+            ?.value.localeCompare(b?.tags?.find((tag: any) => tag.name === 'category')?.value),
+      );
+    }
+
+    // Update the filtered list
+    setFilteredList(updatedList);
+  }, [currentFilters, listJobs]);
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div className='flex min-h-full flex-col space-y-12'>
+      {isLoading ? (
+        <TitleLoading />
+      ) : (
+        <h2 className='text-base font-semibold capitalize leading-6 text-zinc-z8'>
+          {data?.message}
+        </h2>
+      )}
+      <Filters isLoading={isLoading} />
+      {isLoading ? (
+        <ContentLoading />
+      ) : (
+        <div>
+          {isEmpty(listJobs) ? (
+            <EmptyState />
+          ) : (
+            <>
+              <div className='!relative h-full '>
+                {isFetching && (
+                  <div className=' absolute left-0 top-0 z-10 h-full w-full rounded-xl opacity-50'>
+                    <Skeleton className=' pointer-events-none h-full w-full' />
+                  </div>
+                )}
+                <DragDropContext onDragEnd={handleOnDragEnd}>
+                  <Droppable droppableId='characters'>
+                    {(provided) => (
+                      <ul
+                        className='flex flex-col gap-5'
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                      >
+                        {filteredList?.map((item, index) => {
+                          const itemData = item?.created_at;
+                          const formattedDate = dayjs(itemData).format('ddd, MMM D, YYYY');
+
+                          return (
+                            <Draggable
+                              key={item?.id?.toString()}
+                              draggableId={item?.id?.toString()}
+                              index={index}
+                            >
+                              {(provided) => (
+                                <li
+                                  className='rounded-xl bg-white p-8 shadow'
+                                  key={item?.id}
+                                  ref={provided.innerRef}
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                >
+                                  <Accordion type='single' collapsible>
+                                    <AccordionItem value='item-1'>
+                                      <div>
+                                        <AccordionTrigger>
+                                          <div className='flex flex-col items-start'>
+                                            <div>{item?.name}</div>
+                                            <div className='text-sm text-zinc-z5'>
+                                              {formattedDate}
+                                            </div>
+                                          </div>
+                                        </AccordionTrigger>
+                                      </div>
+                                      <AccordionContent>
+                                        <ContentCard item={item} />
+                                      </AccordionContent>
+                                    </AccordionItem>
+                                  </Accordion>
+                                </li>
+                              )}
+                            </Draggable>
+                          );
+                        })}
+                        {provided.placeholder}
+                      </ul>
+                    )}
+                  </Droppable>
+                </DragDropContext>
+              </div>
+              <Pagination
+                filter={serverFilter}
+                setServerFilter={setServerFilter}
+                metaData={data?.meta}
+              />
+            </>
+          )}
         </div>
-      </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore the Next.js 13 playground.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+      )}
+    </div>
+  );
 }
+
+const BOARD_KEY = process.env.NEXT_PUBLIC_BOARD_KEY;
