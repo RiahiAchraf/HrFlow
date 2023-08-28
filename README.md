@@ -4,6 +4,7 @@
 
 This challenge involves developing a responsive web page using the React.js library that displays a list of jobs. The page allows users to filter job listings by categories, search for jobs using a text input, and apply various filters.
 
+[hr-flow.vercel.app](https://hr-flow.vercel.app/)
 
 ## Features
 
@@ -26,11 +27,11 @@ This challenge involves developing a responsive web page using the React.js libr
 ## Instructions
 
 1. **Installation:**
-   - Clone this repository: `[git@github.com:RiahiAchraf/HrFlow.git](https://github.com/RiahiAchraf/HrFlow.git)`
+   - Clone this repository: `https://github.com/RiahiAchraf/HrFlow.git`
    - Navigate to the project directory: `cd hr-flow`
 
 2. **Setup:**
-   - Make sure to use node-version: [18.x]
+   - Make sure to use node-version: `[18.x]`
    - Install dependencies: `pnpm install` or `npm install` or `yarn install` 
 
 3. **Running the App:**
@@ -49,7 +50,7 @@ This challenge involves developing a responsive web page using the React.js libr
    - Run tests using: `pnpm test:open` or `npm test:open` or `yarn test:open`
    - Make sure to have a testing environment set up ( Cypress )
 
-6. **Tech Stack:**
+6. **Tech Stack**
    - Typescript
    - Nextjs 13
    - Eslint/Prettier, lint-staged, husky and commitlint configured
@@ -74,12 +75,10 @@ This challenge involves developing a responsive web page using the React.js libr
 9.  **Contributing:**
    - If you'd like to contribute, feel free to fork and submit a pull request.
 
-10.  **Credits:**
-    - Include any credits or references to external sources you've used.
 
-11. **License:**
+10. **License:**
     - [HrFlow.ai]
 
 Happy coding!
 
-[![Powered by Vercel](./powered-by-vercel.svg)]
+[![Powered by Vercel](~/../public/vercel.svg)]
