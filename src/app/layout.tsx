@@ -5,6 +5,7 @@ import type { Metadata } from 'next';
 import { Inter as FontSans } from 'next/font/google';
 
 import Layout from '@/components/layout';
+import { CustomToaster } from '@/components/ui';
 import { cn } from '@/lib/cn';
 
 import Providers from './providers';
@@ -38,6 +39,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
     >
       <body className='h-full'>
         <Providers>
+          <CustomToaster />
           <Layout>{children}</Layout>
         </Providers>
       </body>
