@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "test:open": "cypress open",
+    "test:run": "cypress run",
     "prettier-format": "prettier --write .",
     "prettier-check": "prettier --check .",
     "prepare": "husky install"
@@ -45,6 +47,7 @@
     "@types/ramda": "^0.29.3",
     "@types/react-beautiful-dnd": "^13.1.4",
     "@typescript-eslint/eslint-plugin": "^6.4.1",
+    "cypress": "^12.17.4",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-prettier": "^5.0.0",
