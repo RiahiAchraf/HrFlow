@@ -1,4 +1,4 @@
-#  🚀 HrFlow - Job Listing Web Page Challenge 
+#  🚀 HrFlow - Job Listing Web App Challenge 
 
 ## Overview
 
