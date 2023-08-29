@@ -42,7 +42,7 @@ export default function Filters({ isLoading }: FiltersProps) {
         }}
         disabled={isLoading}
       />
-      <div className='flex flex-col items-end justify-between gap-4 sm:flex-row sm:items-center'>
+      <div className='flex flex-col items-end justify-between gap-8 sm:flex-row sm:items-center'>
         <div className='flex w-full flex-col items-center gap-4 sm:w-auto sm:flex-row'>
           <Select
             key={key1}
@@ -60,7 +60,15 @@ export default function Filters({ isLoading }: FiltersProps) {
             <SelectTrigger data-test='select-category' className='w-full sm:w-[250px]'>
               <SelectValue placeholder='Select a category' />
             </SelectTrigger>
-            <SelectContent data-test='category-content'>
+            <SelectContent
+              data-test='category-content'
+              ref={(ref) => {
+                if (!ref) return;
+                ref.ontouchstart = (e) => {
+                  e.preventDefault();
+                };
+              }}
+            >
               {listCategories.map((item, index) => (
                 <SelectItem data-test='category-item' key={index} value={item}>
                   {item}
@@ -85,7 +93,15 @@ export default function Filters({ isLoading }: FiltersProps) {
             <SelectTrigger data-test='select-sort-by' className='w-full sm:w-[250px]'>
               <SelectValue placeholder='Sort by' />
             </SelectTrigger>
-            <SelectContent data-test='sort-by-content'>
+            <SelectContent
+              data-test='sort-by-content'
+              ref={(ref) => {
+                if (!ref) return;
+                ref.ontouchstart = (e) => {
+                  e.preventDefault();
+                };
+              }}
+            >
               {sortBy.map((item, index) => (
                 <SelectItem data-test='sort-by-item' value={item.value} key={index}>
                   {item.title}
