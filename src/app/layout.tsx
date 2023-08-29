@@ -6,7 +6,7 @@ import { Inter as FontSans } from 'next/font/google';
 
 import Layout from '@/components/layout';
 import { CustomToaster } from '@/components/ui';
-import { cn } from '@/lib/cn';
+import { cn } from '@/utils/cn';
 
 import Providers from './providers';
 
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   viewport: {
     width: 'device-width',
     initialScale: 1,
-    maximumScale: 1,
+    // maximumScale: 1,
     viewportFit: 'cover',
   },
 };

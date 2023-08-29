@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/Select';
-import { cn } from '@/lib/cn';
+import { cn } from '@/utils/cn';
 import { ChevronLeft, ChevronRight } from '~/svg';
 
 type PaginationProps = {
@@ -85,7 +85,7 @@ const Pagination = ({ filter, setServerFilter, metaData }: PaginationProps) => {
       </div>
 
       <div className='flex items-center gap-2'>
-        <div className={cn(page === 1 && ' !cursor-not-allowed')}>
+        <div data-test='back-button' className={cn(page === 1 && ' !cursor-not-allowed')}>
           <div
             className={cn(
               page === 1 && 'pointer-events-none text-zinc-z4 ',
@@ -100,7 +100,10 @@ const Pagination = ({ filter, setServerFilter, metaData }: PaginationProps) => {
           </div>
         </div>
 
-        <ul className='isolate inline-flex w-full justify-center gap-2 md:w-auto '>
+        <ul
+          data-test='pagination-items'
+          className='isolate inline-flex w-full justify-center gap-2 md:w-auto '
+        >
           {pages.map((item, index) => {
             const pageClassName = cn(
               'flex  items-center justify-center rounded-full h-9 w-9 ',
@@ -109,8 +112,12 @@ const Pagination = ({ filter, setServerFilter, metaData }: PaginationProps) => {
 
             return (
               <li
+                data-test='pagination-item'
                 key={index}
-                className={cn(pageClassName, page === item && 'bg-white shadow')}
+                className={cn(
+                  pageClassName,
+                  page === item && 'bg-white shadow pointer-events-none',
+                )}
                 onClick={() => handleClick(item)}
               >
                 {item}
@@ -119,7 +126,7 @@ const Pagination = ({ filter, setServerFilter, metaData }: PaginationProps) => {
           })}
         </ul>
 
-        <div className={cn(page === maxPage && ' !cursor-not-allowed')}>
+        <div data-test='next-button' className={cn(page === maxPage && ' !cursor-not-allowed')}>
           <div
             className={cn(
               page === maxPage && 'pointer-events-none text-zinc-z4 ',

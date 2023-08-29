@@ -28,8 +28,6 @@ type ContentCardProps = {
 };
 
 export default function ContentCard({ item }: ContentCardProps) {
-  const categoryTag = item?.tags?.find((tag) => tag?.name === 'category');
-
   return (
     <div className='mb-4 flex flex-col items-start gap-8'>
       <div>
@@ -43,13 +41,6 @@ export default function ContentCard({ item }: ContentCardProps) {
           })}
         </ul>
       </div>
-
-      {categoryTag && !isEmpty(categoryTag?.value) && (
-        <div>
-          <span className='font-semibold'>Category: </span>
-          {categoryTag?.value}
-        </div>
-      )}
 
       <div>
         <span className='font-semibold'>Location: </span>
