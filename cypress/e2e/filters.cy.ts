@@ -20,7 +20,8 @@ describe('E2E - FILTERS', () => {
     cy.getData('search-input').clear();
 
     cy.step('Should confirms select by the job category filter');
-    cy.get('[aria-controls="radix-:R1faqkq:"]').click({ force: true });
+    cy.getData('select-category').click();
+
     cy.getData('category-content')
       .find('[data-test="category-item"]')
       .then((firstItem) => {
@@ -30,11 +31,11 @@ describe('E2E - FILTERS', () => {
         cy.getData('category-item').first().contains(firstItemValue).click();
 
         cy.step('Assert that the selected category is displayed correctly');
-        cy.get('[aria-controls="radix-:R1faqkq:"]').contains(firstItemValue);
+        cy.getData('select-category').contains(firstItemValue);
       });
 
     cy.step('Should confirms sort by filter');
-    cy.get('[aria-controls="radix-:R2faqkq:"]').click({ force: true });
+    cy.getData('select-sort-by').click();
 
     cy.getData('sort-by-content')
       .find('[data-test="sort-by-item"]')
@@ -47,27 +48,27 @@ describe('E2E - FILTERS', () => {
         cy.getData('sort-by-item').first().contains(sortByDate).click();
 
         cy.step('Assert that the date sort is displayed correctly');
-        cy.get('[aria-controls="radix-:R2faqkq:"]').contains(sortByDate);
+        cy.getData('select-sort-by').contains(sortByDate);
 
         cy.step('Should sort by name');
-        cy.get('[aria-controls="radix-:R2faqkq:"]').click({ force: true });
+        cy.getData('select-sort-by').click();
         cy.getData('sort-by-item').eq(1).contains(sortByName).click();
 
         cy.step('Assert that the name sort is displayed correctly');
-        cy.get('[aria-controls="radix-:R2faqkq:"]').contains(sortByName);
+        cy.getData('select-sort-by').contains(sortByName);
 
         cy.step('Should sort by category');
-        cy.get('[aria-controls="radix-:R2faqkq:"]').click({ force: true });
+        cy.getData('select-sort-by').click();
         cy.getData('sort-by-item').last().contains(sortByCategory).click();
 
         cy.step('Assert that the category sort is displayed correctly');
-        cy.get('[aria-controls="radix-:R2faqkq:"]').contains(sortByCategory);
+        cy.getData('select-sort-by').contains(sortByCategory);
       });
 
     cy.step('Should reset filters');
     cy.getData('reset-button').click();
-    cy.get('[aria-controls="radix-:r28:"]').contains('Select a category');
-    cy.get('[aria-controls="radix-:r29:"]').contains('Sort by');
+    cy.getData('select-category').contains('Select a category');
+    cy.getData('select-sort-by').contains('Sort by');
     cy.getData('search-input').should('have.attr', 'placeholder', 'Search by job name');
   });
 });

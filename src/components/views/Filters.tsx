@@ -45,7 +45,6 @@ export default function Filters({ isLoading }: FiltersProps) {
       <div className='flex flex-col items-end justify-between gap-4 sm:flex-row sm:items-center'>
         <div className='flex w-full flex-col items-center gap-4 sm:w-auto sm:flex-row'>
           <Select
-            data-test='select-category'
             key={key1}
             value={currentFilters?.category}
             onValueChange={(event) => {
@@ -58,7 +57,7 @@ export default function Filters({ isLoading }: FiltersProps) {
             }}
             disabled={isLoading}
           >
-            <SelectTrigger className='w-full sm:w-[250px]'>
+            <SelectTrigger data-test='select-category' className='w-full sm:w-[250px]'>
               <SelectValue placeholder='Select a category' />
             </SelectTrigger>
             <SelectContent data-test='category-content'>
@@ -83,7 +82,7 @@ export default function Filters({ isLoading }: FiltersProps) {
             }}
             disabled={isLoading}
           >
-            <SelectTrigger className='w-full sm:w-[250px]'>
+            <SelectTrigger data-test='select-sort-by' className='w-full sm:w-[250px]'>
               <SelectValue placeholder='Sort by' />
             </SelectTrigger>
             <SelectContent data-test='sort-by-content'>
