@@ -54,7 +54,7 @@ This challenge involves developing a responsive web page using the React.js libr
    - Typescript
    - Nextjs 13
    - Eslint/Prettier, lint-staged, husky and commitlint configured
-   - UI libraries: Tailwindcss, Shadcn
+   - UI libraries: Tailwindcss, Shadcn ( Powered by Radix UI & Tailwindcss )
    - State management: Zustand
    - Data management: React Query
    - Testing tool: Cypress
@@ -72,7 +72,7 @@ This challenge involves developing a responsive web page using the React.js libr
    - Error handling and app robustness
    - Adherence to guidelines and requirements
 
-9.  **Error Handling:**
+9. **Error Handling:**
    - The app handles errors gracefully and provides user-friendly feedback.
 
 10. **License:**

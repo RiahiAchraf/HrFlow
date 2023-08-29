@@ -42,7 +42,7 @@ export default function Filters({ isLoading }: FiltersProps) {
         }}
         disabled={isLoading}
       />
-      <div className='flex flex-col items-end justify-between gap-8 sm:flex-row sm:items-center'>
+      <div className='flex flex-col items-end justify-between gap-4 sm:flex-row sm:items-center'>
         <div className='flex w-full flex-col items-center gap-4 sm:w-auto sm:flex-row'>
           <Select
             key={key1}
