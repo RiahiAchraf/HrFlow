@@ -1,4 +1,4 @@
-describe('E2E - ACCORDION', () => {
+describe('E2E - LIST ITEMS', () => {
   beforeEach(() => {
     cy.visit('/');
   });

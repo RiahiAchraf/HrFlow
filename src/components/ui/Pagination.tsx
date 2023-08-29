@@ -64,16 +64,16 @@ const Pagination = ({ filter, setServerFilter, metaData }: PaginationProps) => {
             defaultValue={limit.toString()}
             onValueChange={(event) => setServerFilter({ page: 1, limit: parseInt(event, 10) })}
           >
-            <SelectTrigger className='w-[70px]'>
+            <SelectTrigger data-test='select-limit' className='w-[70px]'>
               <SelectValue placeholder='Limit' />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent data-test='limit-content'>
               {[
-                { value: '15', title: '15' },
-                { value: '10', title: '10' },
                 { value: '5', title: '5' },
+                { value: '10', title: '10' },
+                { value: '15', title: '15' },
               ].map((item) => (
-                <SelectItem key={item.value} value={item.value}>
+                <SelectItem data-test='limit-item' key={item.value} value={item.value}>
                   {item.title}
                 </SelectItem>
               ))}
