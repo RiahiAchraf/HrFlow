@@ -20,7 +20,7 @@ describe('E2E - FILTERS', () => {
     cy.getData('search-input').clear();
 
     cy.step('Should confirms select by the job category filter');
-    cy.getData('select-category').click();
+    cy.getData('select-category').click({});
 
     cy.getData('category-content')
       .find('[data-test="category-item"]')
