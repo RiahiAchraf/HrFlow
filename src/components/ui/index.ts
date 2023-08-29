@@ -1,4 +1,4 @@
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './According';
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './Accordion';
 export { Button } from './Button';
 export { CustomToaster } from './CustomToaster';
 export { Input } from './Input';

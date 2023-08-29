@@ -3,4 +3,5 @@ export { default as ChevronDown } from './chevron-down';
 export { default as ChevronLeft } from './chevron-left';
 export { default as ChevronRight } from './chevron-right';
 export { default as ChevropUp } from './chevron-up';
+export { default as MagnifyingGlass } from './magnifying-glass';
 export { default as NoData } from './no-data';
