@@ -164,7 +164,7 @@ export default function Home() {
                                   <Accordion type='single' collapsible>
                                     <AccordionItem value='item-1'>
                                       <div>
-                                        <AccordionTrigger>
+                                        <AccordionTrigger data-test='accordion-trigger'>
                                           <div className='flex flex-col items-start'>
                                             <div data-test='job-name' className='capitalize'>
                                               {item?.name}
@@ -175,7 +175,7 @@ export default function Home() {
                                           </div>
                                         </AccordionTrigger>
                                       </div>
-                                      <AccordionContent>
+                                      <AccordionContent data-test='accordion-content'>
                                         <ContentCard item={item} />
                                       </AccordionContent>
                                     </AccordionItem>
