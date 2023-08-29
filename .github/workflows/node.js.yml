@@ -38,3 +38,10 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v4
+        with:
+          build: pnpm run build
+          start: pnpm start
+          wait-on: http://localhost:3000

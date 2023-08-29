@@ -135,9 +135,10 @@ export default function Home() {
                   </div>
                 )}
                 <DragDropContext onDragEnd={handleOnDragEnd}>
-                  <Droppable droppableId='characters'>
+                  <Droppable droppableId='list-jobs'>
                     {(provided) => (
                       <ul
+                        data-test='list-items'
                         className='flex flex-col gap-5'
                         {...provided.droppableProps}
                         ref={provided.innerRef}
@@ -163,16 +164,18 @@ export default function Home() {
                                   <Accordion type='single' collapsible>
                                     <AccordionItem value='item-1'>
                                       <div>
-                                        <AccordionTrigger>
+                                        <AccordionTrigger data-test='accordion-trigger'>
                                           <div className='flex flex-col items-start'>
-                                            <div>{item?.name}</div>
+                                            <div data-test='job-name' className='capitalize'>
+                                              {item?.name}
+                                            </div>
                                             <div className='text-sm text-zinc-z5'>
                                               {formattedDate}
                                             </div>
                                           </div>
                                         </AccordionTrigger>
                                       </div>
-                                      <AccordionContent>
+                                      <AccordionContent data-test='accordion-content'>
                                         <ContentCard item={item} />
                                       </AccordionContent>
                                     </AccordionItem>

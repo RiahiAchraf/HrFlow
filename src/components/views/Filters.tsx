@@ -28,6 +28,7 @@ export default function Filters({ isLoading }: FiltersProps) {
     <div className='flex flex-col space-y-4'>
       <h2 className=''>Filters</h2>
       <Input
+        data-test='search-input'
         type='search'
         placeholder='Search by job name'
         value={currentFilters?.search}
@@ -56,12 +57,12 @@ export default function Filters({ isLoading }: FiltersProps) {
             }}
             disabled={isLoading}
           >
-            <SelectTrigger className='w-full sm:w-[250px]'>
+            <SelectTrigger data-test='select-category' className='w-full sm:w-[250px]'>
               <SelectValue placeholder='Select a category' />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent data-test='category-content'>
               {listCategories.map((item, index) => (
-                <SelectItem key={index} value={item}>
+                <SelectItem data-test='category-item' key={index} value={item}>
                   {item}
                 </SelectItem>
               ))}
@@ -81,12 +82,12 @@ export default function Filters({ isLoading }: FiltersProps) {
             }}
             disabled={isLoading}
           >
-            <SelectTrigger className='w-full sm:w-[250px]'>
+            <SelectTrigger data-test='select-sort-by' className='w-full sm:w-[250px]'>
               <SelectValue placeholder='Sort by' />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent data-test='sort-by-content'>
               {sortBy.map((item, index) => (
-                <SelectItem value={item.value} key={index}>
+                <SelectItem data-test='sort-by-item' value={item.value} key={index}>
                   {item.title}
                 </SelectItem>
               ))}
@@ -94,6 +95,7 @@ export default function Filters({ isLoading }: FiltersProps) {
           </Select>
         </div>
         <Button
+          data-test='reset-button'
           className='w-full sm:w-auto'
           onClick={(e) => {
             e.stopPropagation();
